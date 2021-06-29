@@ -1,0 +1,5 @@
+<RCC>
+    <qresource prefix="/player">
+        <file>image/Persone/NormalState.png</file>
+    </qresource>
+</RCC>
