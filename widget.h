@@ -20,7 +20,7 @@ public:
 
     QWidget *mainWidget;
     QLabel *personeDisplayWidget;
-    QWidget *personeStatWidget;
+    QFrame *personeStatWidget;
 
 
     QLabel *healthStatLabel;

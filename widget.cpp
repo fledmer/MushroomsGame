@@ -68,13 +68,17 @@ Widget::Widget(QWidget *parent)
 
         mainLayout->addLayout(layout,0,0,1,6);
     }
+
     {
+        //Нижнее пространство
        {
+        //Основной виджет
         mainWidget = new QWidget(this);
         mainWidget->setStyleSheet("background-color:black;");
         mainLayout->addWidget(mainWidget,1,0,8,5);
        }
        {
+           //Виджет отображения персонажа
            QFrame *widget = new QFrame();
            //widget->setStyleSheet("background-color: black;border-style: solid;border-width:1px;border-color: white;");
            QHBoxLayout *bLayout = new QHBoxLayout();
@@ -84,21 +88,23 @@ Widget::Widget(QWidget *parent)
            widget->setLayout(bLayout);
            mainLayout->addWidget(personeDisplayWidget,1,5,5,1);
        }
-        personeStatWidget = new QWidget(this);
-        {
+       {
             //Минибокс с текстовой инофрмацией
+            personeStatWidget = new QFrame(this);
             QFont statLabelFont("Bahnschrift",1,1);
             statLabelFont.setPixelSize(30);
+
+            QFrame *bWidget = new QFrame();
 
             healthStatLabel = new QLabel();
             mindStatLabel = new QLabel();
             moneyStatLabel = new QLabel();
             stalkingStatLabel = new QLabel();
 
-            healthStatLabel->setStyleSheet("color:#68da23;");
-            mindStatLabel->setStyleSheet("color:#68da23;");
-            moneyStatLabel->setStyleSheet("color:#68da23;");
-            stalkingStatLabel->setStyleSheet("color:#68da23;");
+            healthStatLabel->setStyleSheet("border-style: solid;border-width:0px;color:#68da23;");
+            mindStatLabel->setStyleSheet("border-style: solid;border-width:0px;color:#68da23;");
+            moneyStatLabel->setStyleSheet("border-style: solid;border-width:0px;color:#68da23;");
+            stalkingStatLabel->setStyleSheet("border-style: solid;border-width:0px;color:#68da23;");
 
             healthStatLabel->setFont(statLabelFont);
             mindStatLabel->setFont(statLabelFont);
@@ -112,18 +118,12 @@ Widget::Widget(QWidget *parent)
             vLayout->addWidget(moneyStatLabel);
             vLayout->addWidget(stalkingStatLabel);
             personeStatWidget->setLayout(vLayout);
-        }
-        personeStatWidget->setStyleSheet("border-width:1px;border-color: white;background:#000000;");
-        mainLayout->addWidget(personeStatWidget,6,5,3,1);
+            personeStatWidget->setStyleSheet("background-color: black;border-style: solid;border-width:1px;border-color: white;");
+            mainLayout->addWidget(personeStatWidget,6,5,3,1);
+       }
     }
 
-    QHBoxLayout *backlayout = new QHBoxLayout();
-    backlayout->setSpacing(0);
-    QWidget *qwidgetBack = new QWidget();
-    qwidgetBack->setStyleSheet("background-color: black");
-    qwidgetBack->setLayout(mainLayout);
-    backlayout->addWidget(qwidgetBack);
-    this->setLayout(backlayout);
+    this->setLayout(mainLayout);
 
 }
 
@@ -145,7 +145,7 @@ void Widget::SetPersoneStat()
 void Widget::ChoiseWorkSlot()
 {
     delete mainWidget;
-    mainWidget = new WorkWidget();
+    mainWidget = new WorkWidget(world);
     mainWidget->setStyleSheet("background: black");
     mainLayout->addWidget(mainWidget,1,0,8,5);
 }
