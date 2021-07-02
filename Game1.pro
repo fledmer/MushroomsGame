@@ -9,7 +9,9 @@ CONFIG += c++11
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
+    channel.cpp \
     consolewidget.cpp \
+    hackgamewidget.cpp \
     main.cpp \
     maincharacter.cpp \
     widget.cpp \
@@ -17,7 +19,9 @@ SOURCES += \
     world.cpp
 
 HEADERS += \
+    channel.h \
     consolewidget.h \
+    hackgamewidget.h \
     maincharacter.h \
     widget.h \
     workwidget.h \

@@ -7,6 +7,7 @@
 #include <consolewidget.h>
 #include <random>
 #include <QDial>
+#include <QPushButton>
 
 struct channel{
     int id;
@@ -20,23 +21,28 @@ class WorkWidget: public QWidget
 {
     Q_OBJECT
 public:
-    World *world;
+    WorkWidget(Widget *mainWidget);
     Widget *mainWidget;
+    World *world;
     ConsoleWidget *textEdit;
     QTimer *timer;
-    int radioLVL;
+    QPushButton *connectButton;
+    int channelLVL;
 
-    WorkWidget(World *world);
-    void ConsoleOut(const QString &text);
+    void MuteAllWidgets();
+    void unMuteAllWidgets();
 private:
-    void randomWorkChannel();
+    void randomChannels();
     QVector<channel> workChannel;
     QVector<QDial*> *qDials;
+
 
 public slots:
     void changeRadioValue(int value);
 private slots:
     void textChanged();
+    void createChannel();
+
 };
 
 #endif // WORKWIDGET_H

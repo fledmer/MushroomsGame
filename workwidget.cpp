@@ -12,8 +12,12 @@
 #include <time.h>
 #include <QScrollBar>
 #include <QTimer>
+#include <channel.h>
 
-WorkWidget::WorkWidget(World *world):world(world),workChannel()
+WorkWidget::WorkWidget(Widget *mainWidget):
+    mainWidget(mainWidget),
+    world(mainWidget->world),
+    workChannel()
 {
     QGridLayout *mainLayout = new QGridLayout;
     QFont statLabelFont("System",1,1);
@@ -37,19 +41,21 @@ WorkWidget::WorkWidget(World *world):world(world),workChannel()
             connect(textEdit,SIGNAL(textChanged()),SLOT(textChanged()));
             mainLayout->addWidget(textEdit,0,1,2,5);
             textEdit->PrintText("Загрузка....\n");
-            textEdit->PrintText("Добро пожаловать в систему",1);}
+            textEdit->PrintText("Добро пожаловать в систему\n",40,10);}
 
-        //Кнопка ПОИСКА
+        //Кнопка
 
         {
-            QPushButton *button = new QPushButton();
-            button->setStyleSheet("background-color: black;color: #68da23;\
+            connectButton = new QPushButton();
+            connectButton->setStyleSheet("background-color: black;color: #68da23;\
             border-style: solid;border-width:1px;border-color: white;");
-            button->setText("ВОЙТИ");
-            button->setMinimumSize(200,120);
-            button->setFont(QFont("System",20,20));
+            connectButton->setText("ПОДКЛЮЧИТЬСЯ");
+            connectButton->setMinimumSize(200,120);
+            connectButton->setFont(QFont("System",20,20));
             //button->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
-            mainLayout->addWidget(button,2,3,1,1);}
+            mainLayout->addWidget(connectButton,2,3,1,1);
+            connect(connectButton,SIGNAL(clicked()),this,SLOT(createChannel()));
+        }
 
         //Ползунки
 
@@ -80,36 +86,58 @@ WorkWidget::WorkWidget(World *world):world(world),workChannel()
 
     }
 
-    randomWorkChannel();
+    randomChannels();
     setLayout(mainLayout);
     timer = new QTimer(this);
     timer->setInterval(100);
 }
 
-void WorkWidget::randomWorkChannel()
+void WorkWidget::MuteAllWidgets()
+{
+    //qDebug() << *qDials;
+    for(int x = 0; x < qDials->size();x++)
+    {
+        (*qDials)[x]->setDisabled(true);
+    }
+    //qDebug() << connectButton;
+    connectButton->setDisabled(true);
+}
+
+void WorkWidget::unMuteAllWidgets()
+{
+    for(int x = 0; x < qDials->size();x++)
+    {
+        (*qDials)[x]->setEnabled(true);
+    }
+    connectButton->setEnabled(true);
+}
+
+void WorkWidget::randomChannels()
 {
     workChannel.clear();
     srand(time(0));
-    radioLVL = 0;
+    channelLVL = 0;
+    workChannel.push_back(channel(0,1));
     for(int x = 0; x < 1000;x++){
-       workChannel.push_back(channel(rand()%1000000,1));
+       workChannel.push_back(channel(rand()%10000000,1));
     }
     for(int x = 0; x < 100+world->mainCharacter->stalkingLVL;x++){
-        workChannel.push_back(channel(rand()%1000000,2));
+        workChannel.push_back(channel(rand()%10000000,2));
     }
     for(int x = 0; x < world->mainCharacter->stalkingLVL;x++){
-        workChannel.push_back(channel(rand()%1000000,3));
+        workChannel.push_back(channel(rand()%10000000,3));
     }
 
-    //for(int x = 0; x < workChannel.size(); x++){
-    //    qDebug() << (workChannel[x].id);
-    //}
-    //textEdit->insertPlainText(">:Вход в систему выполнен\n>:Выберите нужную волну, а после нажмите ПОИСК\n");
+    for(int x = 0; x < workChannel.size(); x++){
+        qDebug() << (workChannel[x].id) << (workChannel[x].lvl);
+    }
+    textEdit->PrintText("Вход в систему выполнен\n",20);
+    textEdit->PrintText("Введите волну и нажмите ПОИСК\n",20);
 }
 
 void WorkWidget::changeRadioValue(int value)
 {
-    radioLVL = 0;
+    channelLVL = 0;
     int sum = 0;
     for(int x = 0; x < 6; x++){
         sum += (*qDials)[x]->value()*pow(10,x);
@@ -117,15 +145,15 @@ void WorkWidget::changeRadioValue(int value)
     for(int x = 0; x < workChannel.size();x++){
         if(workChannel[x].id==sum){
             textEdit->PrintText("Найден канал " + QString::number(workChannel[x].lvl)
-                                      + " уровня!\n");
+                                      + " уровня!\n",40);
             qDebug() << workChannel[x].id;
-            radioLVL = workChannel[x].lvl;
+            channelLVL = workChannel[x].lvl;
             break;
         }
     }
 
-    if(radioLVL == 0){
-        textEdit->PrintText("пщппщпщщ...\n");
+    if(channelLVL == 0){
+        textEdit->PrintText("пщппщпщщ...\n",50);
     }
 
 }
@@ -136,3 +164,11 @@ void WorkWidget::textChanged()
     x->setValue(x->maximum());
 }
 
+void WorkWidget::createChannel()
+{
+    if(channelLVL == 0)
+        return;
+    else{
+        new Channel(mainWidget,this,channelLVL);
+    }
+}

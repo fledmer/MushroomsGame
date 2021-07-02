@@ -145,7 +145,7 @@ void Widget::SetPersoneStat()
 void Widget::ChoiseWorkSlot()
 {
     delete mainWidget;
-    mainWidget = new WorkWidget(world);
+    mainWidget = new WorkWidget(this);
     mainWidget->setStyleSheet("background: black");
     mainLayout->addWidget(mainWidget,1,0,8,5);
 }
