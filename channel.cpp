@@ -11,10 +11,11 @@ Channel::Channel(Widget *mainWidget,WorkWidget *workWidget, int LVL):
 {
     workWidget->MuteAllWidgets();
     srand(time(0));
-    int dialogCount = rand()%5+4;
-    qDebug() << *(mainWidget->world->dialogs);
+    int dialogCount = 1;
+    //int dialogCount = rand()%5+4;
+    //qDebug() << *(mainWidget->world->dialogs);
     QStringList dialogs = (*(mainWidget->world->dialogs))[LVL-1];
-    qDebug() << dialogs.size();
+    //qDebug() << dialogs.size();
     workWidget->textEdit->consolePrePrint = " ";
     //workWidget->textEdit->SetFontSize(15);
     connect(workWidget->textEdit,SIGNAL(emptyStack()),SLOT(makeGame()));
@@ -22,17 +23,22 @@ Channel::Channel(Widget *mainWidget,WorkWidget *workWidget, int LVL):
         workWidget->textEdit->PrintText(dialogs[rand()%(dialogs.count())]);
         workWidget->textEdit->PrintText("\n");
     }
-    qDebug() << "HHH";
 
+}
+
+void Channel::succesHack()
+{
+    qDebug() << "SUCESS HACK";
 }
 
 void Channel::makeGame()
 {
-        qDebug() << "HHH";
-    WorkWidget *oldWorkWidget = workWidget;
-
-    mainWidget->mainWidget = new HackGameWidget(mainWidget);
-    mainWidget->mainWidget->show();
-    workWidget->unMuteAllWidgets();
-
+    HackGameWidget *hackGame = new HackGameWidget(4,4);
+    hackGame->parentChannel = this;
+    hackGame->StartGame();
+    hackGame->Update();
+    //workWidget->mainLayout->addWidget(hackGame,0,1,2,5);
+    hackGame->show();
+    connect(mainWidget,SIGNAL(keyPressSignal(QKeyEvent*)),hackGame,SLOT(keyPressSlot(QKeyEvent*)));
 }
+

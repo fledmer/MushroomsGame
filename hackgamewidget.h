@@ -4,6 +4,7 @@
 #include <QWidget>
 #include <QtCore>
 #include <QLabel>
+#include <channel.h>
 
 class CandyWorld
 {
@@ -26,22 +27,23 @@ class HackGameWidget : public QWidget
     Q_OBJECT
 
 public:
-    explicit HackGameWidget(QWidget *parent = nullptr);
+    explicit HackGameWidget(int mazeSize, int candyCount);
     ~HackGameWidget();
-    int w_size,h_size;
+    Channel *parentChannel;
+    int mazeSize;
     int candyLvl;
-
-private:
+    int candyCount;
     void StartGame();
     void Update();
-    //QWidget *curent;
-    QLabel *candyLvlLabel;
-    QLabel *candyEatLabel;
+    void keyPressEvent(QKeyEvent *event);
+private:
+    WorkWidget *mainWidget;
     CandyWorld *candyWorld;
     QVector<QVector<int>> *worldMatrix;
     QVector<QVector<QWidget*>> *graphicsMatrix;
 
-    void keyPressEvent(QKeyEvent *event);
+public slots:
+    void keyPressSlot(QKeyEvent*);
 };
 
 #endif // HACKGAMEWIDGET_H

@@ -19,7 +19,7 @@ WorkWidget::WorkWidget(Widget *mainWidget):
     world(mainWidget->world),
     workChannel()
 {
-    QGridLayout *mainLayout = new QGridLayout;
+    mainLayout = new QGridLayout;
     QFont statLabelFont("System",1,1);
     this->setStyleSheet("background-color: black");
     statLabelFont.setPixelSize(15);
@@ -129,7 +129,7 @@ void WorkWidget::randomChannels()
     }
 
     for(int x = 0; x < workChannel.size(); x++){
-        qDebug() << (workChannel[x].id) << (workChannel[x].lvl);
+        //qDebug() << (workChannel[x].id) << (workChannel[x].lvl);
     }
     textEdit->PrintText("Вход в систему выполнен\n",20);
     textEdit->PrintText("Введите волну и нажмите ПОИСК\n",20);

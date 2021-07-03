@@ -30,7 +30,11 @@ public:
     Widget(QWidget *parent = nullptr);
     ~Widget();
 
+     void keyPressEvent(QKeyEvent *event);
+
 public slots:
     void ChoiseWorkSlot();
+signals:
+    void keyPressSignal(QKeyEvent *);
 };
 #endif // WIDGET_H

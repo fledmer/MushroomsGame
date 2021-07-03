@@ -4,7 +4,7 @@
 #include <QWidget>
 #include <QTextEdit>
 
-class ConsoleWidget: public QTextEdit
+class ConsoleWidget:  public QTextEdit
 {
      Q_OBJECT
 public:

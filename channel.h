@@ -12,6 +12,8 @@ public:
     Widget *mainWidget;
     Channel(Widget *mainWidget,WorkWidget *workWidget, int LVL);
     int LVL;
+
+    void succesHack();
 public slots:
     void makeGame();
 };

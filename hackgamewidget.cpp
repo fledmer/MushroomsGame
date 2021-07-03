@@ -146,11 +146,16 @@ CandyWorld::~CandyWorld()
 }
 
 
-HackGameWidget::HackGameWidget(QWidget *parent)
+HackGameWidget::HackGameWidget(int mazeSize, int candyCount):
+    QWidget(),
+    mazeSize(mazeSize),
+    candyLvl(0),
+    candyCount(candyCount)
 {
-    w_size = 3;h_size =3;candyLvl=0;
-    StartGame();
-    Update();
+    setStyleSheet("background: black");
+    setWindowTitle("HACK.EXE");
+    setWindowFlags(Qt::Dialog | Qt::MSWindowsFixedSizeDialogHint);
+    setGeometry(1080,400,500,500);
 }
 
 HackGameWidget::~HackGameWidget()
@@ -159,18 +164,13 @@ HackGameWidget::~HackGameWidget()
 
 void HackGameWidget::StartGame()
 {
-    if(candyLvl != 0){
-    delete candyEatLabel;
-    delete candyLvlLabel;
-    delete candyWorld;
-    delete graphicsMatrix;
-    }
 
     QGridLayout *mainLayout = new QGridLayout();
-    candyWorld = new CandyWorld(w_size,h_size);
+    mainLayout->setSpacing(0);
+    candyWorld = new CandyWorld(mazeSize,mazeSize);
     worldMatrix = candyWorld->world;
-    int _w_size = w_size*2+1;
-    int _h_size = h_size*2+1;
+    int _w_size = mazeSize*2+1;
+    int _h_size = mazeSize*2+1;
     //такие размеры нужны для работы с матрицей
     graphicsMatrix = new QVector<QVector<QWidget*>>();
 
@@ -183,39 +183,22 @@ void HackGameWidget::StartGame()
         }
     }
 
-//    candyLvlLabel = new QLabel(this);
-//    candyLvlLabel->setFont(QFont("Caveat",20,20,true));
-//    candyLvlLabel->setGeometry(820,15,400,100);
-//    candyLvlLabel->setText("Уровень: " + QString::number(candyLvl));
-//    candyLvlLabel->show();
-//    candyEatLabel = new QLabel(this);
-//    candyEatLabel->setFont(QFont("Caveat",20,20,true));
-//    candyEatLabel->setGeometry(820,60,400,100);
-//    candyEatLabel->show();
-
     this->setLayout(mainLayout);
 
     Update();
 }
 
-void HackGameWidget::keyPressEvent(QKeyEvent *event)
+
+void HackGameWidget::keyPressSlot(QKeyEvent *event)
 {
-    if(event->key() == Qt::Key_Left)
-        candyWorld->Update(0);
-    else if(event->key() == Qt::Key_Right)
-        candyWorld->Update(1);
-    else if(event->key() == Qt::Key_Up)
-        candyWorld->Update(2);
-    else if(event->key() == Qt::Key_Down)
-        candyWorld->Update(3);
-    Update();
+
 }
 
 void HackGameWidget::Update()
 {
-    for(int y = 0; y < h_size*2+1; y++)
+    for(int y = 0; y < mazeSize*2+1; y++)
     {
-        for(int x = 0; x < w_size*2+1; x++)
+        for(int x = 0; x < mazeSize*2+1; x++)
         {
             if((*worldMatrix)[y][x] == 1)
             {
@@ -248,9 +231,22 @@ void HackGameWidget::Update()
     //+ QString::number(candyWorld->candyEatCount)
     //+ " конфет");
 
-    if(candyWorld->candyEatCount == 5)
+    if(candyWorld->candyEatCount == candyCount)
     {
-        candyLvl++;w_size+=2;h_size+=2;
-        StartGame();
+        parentChannel->succesHack();
+        delete this;
     }
+}
+
+void HackGameWidget::keyPressEvent(QKeyEvent *event)
+{
+    if(event->key() == Qt::Key_A)
+        candyWorld->Update(0);
+    else if(event->key() == Qt::Key_D)
+        candyWorld->Update(1);
+    else if(event->key() == Qt::Key_W)
+        candyWorld->Update(2);
+    else if(event->key() == Qt::Key_S)
+        candyWorld->Update(3);
+    Update();
 }

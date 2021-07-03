@@ -22,6 +22,7 @@ class WorkWidget: public QWidget
     Q_OBJECT
 public:
     WorkWidget(Widget *mainWidget);
+    QGridLayout *mainLayout;
     Widget *mainWidget;
     World *world;
     ConsoleWidget *textEdit;

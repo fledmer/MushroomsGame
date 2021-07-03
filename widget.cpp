@@ -154,3 +154,7 @@ Widget::~Widget()
 {
 }
 
+void Widget::keyPressEvent(QKeyEvent *event)
+{
+}
+
