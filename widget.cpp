@@ -6,12 +6,13 @@
 #include <QVBoxLayout>
 #include <QPixmap>
 #include <workwidget.h>
-
+#include <messagewidget.h>
 Widget::Widget(QWidget *parent)
     : QWidget(parent)
 {
     world = new World();
-
+    MessageWidget *msg = new MessageWidget("HEHEHEHEHDAFPAKDSFP KASPOD KSPAKD PASK DPOKSAD KSAPKD PSAKD KSAP DK");
+    msg->show();
     this->setStyleSheet("background:black;");
     this->resize(1500,800);
     this->setWindowFlags(Qt::Dialog | Qt::MSWindowsFixedSizeDialogHint);

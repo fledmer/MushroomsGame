@@ -32,8 +32,8 @@ ConsoleWidget::ConsoleWidget():QTextEdit(),
             stringStack.pop_front();
             possiton=0;
             if(stringStack.isEmpty()){
-                emit emptyStack();
                 timer->stop();
+                emit emptyStack();
             }
         }
         });

@@ -94,12 +94,10 @@ WorkWidget::WorkWidget(Widget *mainWidget):
 
 void WorkWidget::MuteAllWidgets()
 {
-    //qDebug() << *qDials;
     for(int x = 0; x < qDials->size();x++)
     {
         (*qDials)[x]->setDisabled(true);
     }
-    //qDebug() << connectButton;
     connectButton->setDisabled(true);
 }
 

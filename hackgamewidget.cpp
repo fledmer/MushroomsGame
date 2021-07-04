@@ -233,13 +233,14 @@ void HackGameWidget::Update()
 
     if(candyWorld->candyEatCount == candyCount)
     {
-        parentChannel->succesHack();
+        //parentChannel->succesHack();
         delete this;
     }
 }
 
 void HackGameWidget::keyPressEvent(QKeyEvent *event)
 {
+    qDebug() << "KEY PRESS";
     if(event->key() == Qt::Key_A)
         candyWorld->Update(0);
     else if(event->key() == Qt::Key_D)

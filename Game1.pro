@@ -11,9 +11,11 @@ CONFIG += c++11
 SOURCES += \
     channel.cpp \
     consolewidget.cpp \
+    dialogwidget.cpp \
     hackgamewidget.cpp \
     main.cpp \
     maincharacter.cpp \
+    messagewidget.cpp \
     widget.cpp \
     workwidget.cpp \
     world.cpp
@@ -21,8 +23,10 @@ SOURCES += \
 HEADERS += \
     channel.h \
     consolewidget.h \
+    dialogwidget.h \
     hackgamewidget.h \
     maincharacter.h \
+    messagewidget.h \
     widget.h \
     workwidget.h \
     world.h
