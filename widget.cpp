@@ -11,7 +11,7 @@ Widget::Widget(QWidget *parent)
     : QWidget(parent)
 {
     world = new World();
-    MessageWidget *msg = new MessageWidget("HEHEHEHEHDAFPAKDSFP KASPOD KSPAKD PASK DPOKSAD KSAPKD PSAKD KSAP DK");
+    MessageWidget *msg = new MessageWidget("По своей сущности гигахрущ \n есть нечто похожее на сосиску");
     msg->show();
     this->setStyleSheet("background:black;");
     this->resize(1500,800);

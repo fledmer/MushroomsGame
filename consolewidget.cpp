@@ -10,6 +10,7 @@ ConsoleWidget::ConsoleWidget():QTextEdit(),
     possiton(0)
 {
     setReadOnly(true);
+    QFont statLabelFont("Bahnschrift");
     setStyleSheet("border-style:solid;\
     border-width: 1px;\
     border-radius: 10px;\
@@ -17,6 +18,7 @@ ConsoleWidget::ConsoleWidget():QTextEdit(),
     setLineWidth(1);
     SetFontSize(20);
     setTextColor(Qt::green);
+    setFont(statLabelFont);
     timer = new QTimer();
     timer->setInterval(10);
     connect(timer,&QTimer::timeout,[&](){

@@ -10,9 +10,11 @@ class Channel : public QObject
 public:
     WorkWidget *workWidget;
     Widget *mainWidget;
+    void succesHack();
     Channel(Widget *mainWidget,WorkWidget *workWidget, int channelLvl);
 private:
     QStringList dialogs;
+    QStringList messages;
     World *world;
     MainCharacter *player;
     QVector<int> channelFilling;
@@ -20,8 +22,6 @@ private:
     int state;
     int fileCount;
     bool isFind;
-    void succesHack();
-
     int inChannelPosition;
     void finding();
 signals:
@@ -29,6 +29,7 @@ signals:
 public slots:
     void messageEnd1();
     void messageEnd2();
+    void messageEnd2a1();
     void choiseWidgetSlot(bool value);
 };
 

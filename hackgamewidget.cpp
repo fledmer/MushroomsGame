@@ -42,7 +42,7 @@ void CandyWorld::Update(int direction)
 
     if((*world)[playerPosition->y()][playerPosition->x()] == -1){
         *playerPosition = oldPlayerPosition;
-        qDebug() << "WALL";
+        //qDebug() << "WALL";
     }
 
     while(*playerPosition == *candyPosition ||
@@ -233,14 +233,14 @@ void HackGameWidget::Update()
 
     if(candyWorld->candyEatCount == candyCount)
     {
-        //parentChannel->succesHack();
-        delete this;
+        parentChannel->succesHack();
+        this->close();
     }
 }
 
 void HackGameWidget::keyPressEvent(QKeyEvent *event)
 {
-    qDebug() << "KEY PRESS";
+    //qDebug() << "KEY PRESS";
     if(event->key() == Qt::Key_A)
         candyWorld->Update(0);
     else if(event->key() == Qt::Key_D)

@@ -10,10 +10,15 @@ public:
     QStringList *firstLvlDialog;
     QStringList *secondLvlDialog;
     QStringList *thirdLvlDialog;
+    QList<QStringList> *messages;
+    QStringList *firstLvlMessage;
+    QStringList *secondLvlMessage;
+    QStringList *thirdLvlMessage;
     MainCharacter *mainCharacter;
     World();
 
     void ReadDialogsFromFile();
+    void ReadMessageFromFile();
 
 };
 

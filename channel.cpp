@@ -4,6 +4,7 @@
 #include <QList>
 #include <hackgamewidget.h>
 #include <dialogwidget.h>
+#include <messagewidget.h>
 
 Channel::Channel(Widget *mainWidget,WorkWidget *workWidget, int channelLvl):
     workWidget(workWidget),
@@ -17,28 +18,30 @@ Channel::Channel(Widget *mainWidget,WorkWidget *workWidget, int channelLvl):
 {
     workWidget->MuteAllWidgets();
     dialogs = (*(mainWidget->world->dialogs))[channelLvl-1];
+    messages = (*(mainWidget->world->messages))[channelLvl-1];
     srand(time(0));
     int fileCount = rand()%3+1;
     int personCount = rand()%3;
-    int totalCount = fileCount+personCount+rand()%10+4;
+    int totalCount = fileCount+personCount+rand()%15+7+4;
 
-    channelFilling = QVector<int>(totalCount,0);
+    channelFilling = QVector<int>(totalCount+4,0);
     for(int x = 0; x < fileCount;x++){
-        int value = rand()%totalCount;
+        int value = rand()%totalCount+3;
         if(channelFilling[value] == 0)
             channelFilling[rand()%totalCount] = 1;
         else
             x--;
     }
     for(int x = 0; x < fileCount;x++){
-        int value = rand()%totalCount;
+        int value = rand()%totalCount+3;
         if(channelFilling[value] == 0)
-            channelFilling[rand()%totalCount] = 1;
+            channelFilling[rand()%totalCount] = 2;
         else
             x--;
     }
 
-
+    qDebug() << channelFilling;
+    qDebug() << this;
     connect(workWidget->textEdit,SIGNAL(emptyStack()),SLOT(messageEnd1()));
     connect(this,SIGNAL(nextMessage()),SLOT(messageEnd1()));
     emit nextMessage();
@@ -54,15 +57,21 @@ Channel::Channel(Widget *mainWidget,WorkWidget *workWidget, int channelLvl):
 void Channel::succesHack()
 {
     int random = rand()%3;
-    if(random == 0){
+    if(random == random){
         connect(workWidget->textEdit,SIGNAL(emptyStack()),SLOT(messageEnd2()));
-        workWidget->textEdit->PrintText("Взлом удался, получен документ: " + QString::number(3-channelLvl) + " уровня");
+        workWidget->textEdit->PrintText("Взлом удался, получен документ: " + QString::number(3-channelLvl) + " уровня\n");
     }
 }
 
 void Channel::finding()
 {
-    if(channelFilling[inChannelPosition] == 0){
+    //qDebug() << inChannelPosition << channelFilling[inChannelPosition];
+    if(inChannelPosition == channelFilling.size()){
+        workWidget->textEdit->PrintText("Сигнал канала потерян...\n");
+        workWidget->unMuteAllWidgets();
+        delete this;
+    }
+    else if(channelFilling[inChannelPosition] == 0){
         isFind = true;
         workWidget->textEdit->PrintText(dialogs[rand()%dialogs.size()]+"\n",100);
     }
@@ -75,7 +84,6 @@ void Channel::finding()
     else if(channelFilling[inChannelPosition] == 2){
         workWidget->textEdit->PrintText("DIALOGS");
     }
-
     inChannelPosition++;
 }
 
@@ -86,20 +94,36 @@ void Channel::messageEnd1()
 
 void Channel::messageEnd2()
 {
-
+    disconnect(workWidget->textEdit,SIGNAL(emptyStack()),this,SLOT(messageEnd2()));
     player->changeMind(-10*channelLvl);
+    //MessageWidget *message = new MessageWidget(messages[rand()%messages.size()]);
+    MessageWidget *message = new MessageWidget("Дмитрий урич сын прикола\n");
+    message->show();
+    qDebug() << message->pushButton;
+    connect(message->pushButton,SIGNAL(clicked()),this,SLOT(messageEnd2a1()));
+
+}
+
+void Channel::messageEnd2a1()
+{
+    connect(workWidget->textEdit,SIGNAL(emptyStack()),SLOT(messageEnd1()));
+    workWidget->textEdit->PrintText("Вы чувствуете страх и ужас...\n");
+    workWidget->textEdit->PrintText("Возврат на канал...\n");
+
 }
 
 void Channel::choiseWidgetSlot(bool value)
 {
     if(value){
-        HackGameWidget *miniGame = new HackGameWidget(6+rand()%(channelLvl*3),2+rand()%3);
+        HackGameWidget *miniGame = new HackGameWidget(6+rand()%(channelLvl*3),4+rand()%4);
+        miniGame->parentChannel = this;
         miniGame->StartGame();
         miniGame->Update();
+        miniGame->show();
     }
     else
     {
-        qDebug() << "XEXEEX";
+        emit nextMessage();
     }
 }
 

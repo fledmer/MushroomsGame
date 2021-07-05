@@ -13,6 +13,7 @@ SOURCES += \
     consolewidget.cpp \
     dialogwidget.cpp \
     hackgamewidget.cpp \
+    hellowindow.cpp \
     main.cpp \
     maincharacter.cpp \
     messagewidget.cpp \
@@ -25,6 +26,7 @@ HEADERS += \
     consolewidget.h \
     dialogwidget.h \
     hackgamewidget.h \
+    hellowindow.h \
     maincharacter.h \
     messagewidget.h \
     widget.h \

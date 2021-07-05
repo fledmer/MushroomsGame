@@ -22,7 +22,7 @@ WorkWidget::WorkWidget(Widget *mainWidget):
     mainLayout = new QGridLayout;
     QFont statLabelFont("System",1,1);
     this->setStyleSheet("background-color: black");
-    statLabelFont.setPixelSize(15);
+    statLabelFont.setPixelSize(30);
     //Создание виджетов
 
     {
