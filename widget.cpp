@@ -11,9 +11,8 @@ Widget::Widget(QWidget *parent)
     : QWidget(parent)
 {
     world = new World();
-    MessageWidget *msg = new MessageWidget("По своей сущности гигахрущ \n есть нечто похожее на сосиску");
-    msg->show();
     this->setStyleSheet("background:black;");
+    this->setWindowTitle("Г И Г И Х Р У Щ");
     this->resize(1500,800);
     this->setWindowFlags(Qt::Dialog | Qt::MSWindowsFixedSizeDialogHint);
     mainLayout = new QGridLayout();

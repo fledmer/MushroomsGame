@@ -56,11 +56,11 @@ Channel::Channel(Widget *mainWidget,WorkWidget *workWidget, int channelLvl):
 
 void Channel::succesHack()
 {
-    int random = rand()%3;
-    if(random == random){
-        connect(workWidget->textEdit,SIGNAL(emptyStack()),SLOT(messageEnd2()));
-        workWidget->textEdit->PrintText("Взлом удался, получен документ: " + QString::number(3-channelLvl) + " уровня\n");
-    }
+     connect(workWidget->textEdit,SIGNAL(emptyStack()),SLOT(messageEnd2()));
+     int money = rand() % 1000 + 1000;
+     workWidget->textEdit->PrintText("Взлом удался, получен документ: " + QString::number(3-channelLvl) + " уровня\n");
+     workWidget->textEdit->PrintText("и " + QString::number(money) + " рублей\n");
+     player->changeMoney(money);
 }
 
 void Channel::finding()
@@ -79,10 +79,11 @@ void Channel::finding()
         disconnect(workWidget->textEdit,SIGNAL(emptyStack()),this,SLOT(messageEnd1()));
         DialogWidget *dw = new DialogWidget("Найден зашифрованный файл, начать взлом ?");
         dw->show();
+        dw->setFocus();
         connect(dw,SIGNAL(choiseSignal(bool)),SLOT(choiseWidgetSlot(bool)));
     }
     else if(channelFilling[inChannelPosition] == 2){
-        workWidget->textEdit->PrintText("DIALOGS");
+        workWidget->textEdit->PrintText("TEST DIALOGS \n");
     }
     inChannelPosition++;
 }
@@ -96,9 +97,11 @@ void Channel::messageEnd2()
 {
     disconnect(workWidget->textEdit,SIGNAL(emptyStack()),this,SLOT(messageEnd2()));
     player->changeMind(-10*channelLvl);
+    mainWidget->SetPersoneStat();
     //MessageWidget *message = new MessageWidget(messages[rand()%messages.size()]);
     MessageWidget *message = new MessageWidget("Дмитрий урич сын прикола\n");
     message->show();
+    message->setFocus();
     qDebug() << message->pushButton;
     connect(message->pushButton,SIGNAL(clicked()),this,SLOT(messageEnd2a1()));
 
@@ -107,7 +110,7 @@ void Channel::messageEnd2()
 void Channel::messageEnd2a1()
 {
     connect(workWidget->textEdit,SIGNAL(emptyStack()),SLOT(messageEnd1()));
-    workWidget->textEdit->PrintText("Вы чувствуете страх и ужас...\n");
+    workWidget->textEdit->PrintText("От прочтения файла вы чувствуете страх и ужас...\n");
     workWidget->textEdit->PrintText("Возврат на канал...\n");
 
 }
@@ -115,11 +118,12 @@ void Channel::messageEnd2a1()
 void Channel::choiseWidgetSlot(bool value)
 {
     if(value){
-        HackGameWidget *miniGame = new HackGameWidget(6+rand()%(channelLvl*3),4+rand()%4);
+        HackGameWidget *miniGame = new HackGameWidget(8+rand()%(channelLvl*3),4+rand()%4);
         miniGame->parentChannel = this;
         miniGame->StartGame();
         miniGame->Update();
         miniGame->show();
+        miniGame->setFocus();
     }
     else
     {

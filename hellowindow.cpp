@@ -8,6 +8,7 @@
 
 HelloWindow::HelloWindow():QWidget()
 {
+    this->setWindowTitle("Г И Г И Х Р У Щ");
     this->resize(650,900);
     this->setStyleSheet("background-color: black");
     QFont statLabelFont("Bahnschrift");

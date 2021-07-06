@@ -1,4 +1,5 @@
 #include "maincharacter.h"
+#include "widget.h"
 
 void MainCharacter::changeMind(int value)
 {

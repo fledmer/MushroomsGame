@@ -38,6 +38,7 @@ WorkWidget::WorkWidget(Widget *mainWidget):
 
         {
             textEdit = new ConsoleWidget();
+            textEdit->SetFontSize(25);
             connect(textEdit,SIGNAL(textChanged()),SLOT(textChanged()));
             mainLayout->addWidget(textEdit,0,1,2,5);
             textEdit->PrintText("Загрузка....\n");
@@ -115,7 +116,7 @@ void WorkWidget::randomChannels()
     workChannel.clear();
     srand(time(0));
     channelLVL = 0;
-    workChannel.push_back(channel(0,1));
+    workChannel.push_back(channel(631,1));
     for(int x = 0; x < 1000;x++){
        workChannel.push_back(channel(rand()%10000000,1));
     }

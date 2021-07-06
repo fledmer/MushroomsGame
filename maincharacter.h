@@ -14,6 +14,7 @@ public:
 
     int stalkingLVL;
 
+
     void changeMind(int value);
     void changeHealth(int value);
     void changeMoney(int value);
